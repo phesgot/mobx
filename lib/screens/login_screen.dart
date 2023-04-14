@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_tarefas_2/stores/login_store.dart';
 import 'package:lista_de_tarefas_2/widgets/custom_text_field.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../widgets/custom_icon_button.dart';
 import 'list_screen.dart';
@@ -59,37 +60,41 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 16,
                   ),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: loginStore.isFormValid ? () {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => const ListScreen()));
-                      }: null,
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
+                  Observer(
+                    builder: (_) {
+                      return SizedBox(
+                        height: 44,
+                        child: ElevatedButton(
+                          onPressed: loginStore.isFormValid ? () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const ListScreen()));
+                          }: null,
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                            ),
+                            // backgroundColor: MaterialStateProperty.all(
+                            //   Theme.of(context).primaryColor,
+                            // ),
+                            // foregroundColor: MaterialStateProperty.all(
+                            //   Theme.of(context).primaryColor.withAlpha(100),
+                            // ),
+                          ),
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 20, right: 20),
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
-                        backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryColor,
-                        ),
-                        foregroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryColor.withAlpha(100),
-                        ),
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                      );
+                    }
                   ),
                 ],
               ),
