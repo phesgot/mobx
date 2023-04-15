@@ -14,9 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   LoginStore loginStore = LoginStore();
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,57 +43,57 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 16,
                   ),
-                  CustomTextField(
-                    hint: 'Senha',
-                    prefix: const Icon(Icons.lock),
-                    obscure: true,
-                    onChanged: loginStore.setPassword,
-                    enabled: true,
-                    suffix: CustomIconButton(
-                      radius: 32,
-                      iconData: Icons.visibility,
-                      onTap: () {},
-                    ),
-                  ),
+                  Observer(builder: (_) {
+                    return CustomTextField(
+                      hint: 'Senha',
+                      prefix: const Icon(Icons.lock),
+                      obscure: loginStore.passwordVisible,
+                      onChanged: loginStore.setPassword,
+                      enabled: true,
+                      suffix: CustomIconButton(
+                        radius: 32,
+                        iconData: loginStore.passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        onTap: loginStore.togglePasswordVisibility,
+                      ),
+                    );
+                  }),
                   const SizedBox(
                     height: 16,
                   ),
-                  Observer(
-                    builder: (_) {
-                      return SizedBox(
-                        height: 44,
-                        child: ElevatedButton(
-                          onPressed: loginStore.isFormValid ? () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const ListScreen()));
-                          }: null,
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                            ),
-                            // backgroundColor: MaterialStateProperty.all(
-                            //   Theme.of(context).primaryColor,
-                            // ),
-                            // foregroundColor: MaterialStateProperty.all(
-                            //   Theme.of(context).primaryColor.withAlpha(100),
-                            // ),
+                  Observer(builder: (_) {
+                    return SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: loginStore.isFormValid
+                            ? () {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ListScreen()));
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          disabledBackgroundColor:
+                              Theme.of(context).primaryColor.withAlpha(100),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 20, right: 20),
-                            child: const Text(
-                              "Login",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
                           ),
                         ),
-                      );
-                    }
-                  ),
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),

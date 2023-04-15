@@ -9,6 +9,7 @@ abstract class _LoginStore with Store {
     autorun((_) {
       print("E-mail: $isEmailValid");
       print("Formulário: $isFormValid");
+      print("Visibilidade da senha: $passwordVisible");
     });
   }
 
@@ -18,11 +19,21 @@ abstract class _LoginStore with Store {
   @action
   void setEmail(String value) => email = value;
 
+
   @observable
   String password = "";
 
   @action
   void setPassword(String value) => password = value;
+
+
+  @observable
+  bool passwordVisible = true;
+
+  @action
+  void togglePasswordVisibility() => passwordVisible = !passwordVisible;
+
+
 
   @computed
   bool get isEmailValid => RegExp(
