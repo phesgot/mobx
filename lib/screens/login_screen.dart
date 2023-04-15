@@ -68,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: loginStore.isFormValid
                             ? () {
+                          loginStore.login();
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -84,12 +85,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: Container(
                           margin: const EdgeInsets.only(left: 20, right: 20),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+                          child: loginStore.loading
+                              ? const CircularProgressIndicator(
+                                  valueColor:
+                                      AlwaysStoppedAnimation(Colors.white),
+                                )
+                              : const Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ),
                       ),
                     );
