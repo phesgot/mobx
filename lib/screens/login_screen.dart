@@ -3,6 +3,7 @@ import 'package:lista_de_tarefas_2/stores/login_store.dart';
 import 'package:lista_de_tarefas_2/widgets/custom_text_field.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/custom_icon_button.dart';
 import 'list_screen.dart';
@@ -15,13 +16,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginStore loginStore = LoginStore();
+
+  late LoginStore loginStore;
 
   late ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    loginStore = Provider.of<LoginStore>(context);
 
     // AutoRun é acionado inicialmente e quando houver trocas de valor
     // autorun((_){
