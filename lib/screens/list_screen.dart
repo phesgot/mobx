@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lista_de_tarefas_2/stores/list_store.dart';
 import '../widgets/custom_icon_button.dart';
 import '../widgets/custom_text_field.dart';
 import 'login_screen.dart';
@@ -12,6 +13,8 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  ListStore listStore = ListStore();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,31 +61,38 @@ class _ListScreenState extends State<ListScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: <Widget>[
-                        CustomTextField(
-                          hint: 'Tarefa',
-                          onChanged: (todo) {},
-                          suffix: CustomIconButton(
-                            radius: 32,
-                            iconData: Icons.add,
-                            onTap: () {},
-                          ),
-                        ),
+                        Observer(builder: (_) {
+                          return CustomTextField(
+                              hint: 'Tarefa',
+                              onChanged: listStore.setNewTodoTitle,
+                              suffix: listStore.isFormValid
+                                  ? CustomIconButton(
+                                      radius: 32,
+                                      iconData: Icons.add,
+                                      onTap: listStore.addTodo,
+                                    )
+                                  : null);
+                        }),
                         const SizedBox(
                           height: 8,
                         ),
                         Expanded(
-                          child: ListView.separated(
-                            itemCount: 10,
-                            itemBuilder: (_, index) {
-                              return ListTile(
-                                title: Text(
-                                  'Item $index',
-                                ),
-                                onTap: () {},
+                          child: Observer(
+                            builder: (_) {
+                              return ListView.separated(
+                                itemCount: listStore.todoList.length,
+                                itemBuilder: (_, index) {
+                                  return ListTile(
+                                    title: Text(
+                                      listStore.todoList[index],
+                                    ),
+                                    onTap: () {},
+                                  );
+                                },
+                                separatorBuilder: (_, __) {
+                                  return const Divider();
+                                },
                               );
-                            },
-                            separatorBuilder: (_, __) {
-                              return const Divider();
                             },
                           ),
                         ),
