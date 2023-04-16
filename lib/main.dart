@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: "MobX",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.amber,
+        primaryColor: Colors.black,
         scaffoldBackgroundColor: Colors.black,
       ),
       home: const LoginScreen(),

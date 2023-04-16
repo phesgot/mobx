@@ -23,12 +23,12 @@ mixin _$LoginStore on _LoginStore, Store {
       (_$isPasswordValidComputed ??= Computed<bool>(() => super.isPasswordValid,
               name: '_LoginStore.isPasswordValid'))
           .value;
-  Computed<bool>? _$isFormValidComputed;
+  Computed<Function?>? _$loginPressedComputed;
 
   @override
-  bool get isFormValid =>
-      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: '_LoginStore.isFormValid'))
+  Function? get loginPressed =>
+      (_$loginPressedComputed ??= Computed<Function?>(() => super.loginPressed,
+              name: '_LoginStore.loginPressed'))
           .value;
 
   late final _$emailAtom = Atom(name: '_LoginStore.email', context: context);
@@ -94,6 +94,22 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  late final _$loggedInAtom =
+      Atom(name: '_LoginStore.loggedIn', context: context);
+
+  @override
+  bool get loggedIn {
+    _$loggedInAtom.reportRead();
+    return super.loggedIn;
+  }
+
+  @override
+  set loggedIn(bool value) {
+    _$loggedInAtom.reportWrite(value, super.loggedIn, () {
+      super.loggedIn = value;
+    });
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('_LoginStore.login', context: context);
 
@@ -145,9 +161,10 @@ email: ${email},
 password: ${password},
 passwordVisible: ${passwordVisible},
 loading: ${loading},
+loggedIn: ${loggedIn},
 isEmailValid: ${isEmailValid},
 isPasswordValid: ${isPasswordValid},
-isFormValid: ${isFormValid}
+loginPressed: ${loginPressed}
     ''';
   }
 }

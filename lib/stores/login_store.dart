@@ -8,7 +8,6 @@ abstract class _LoginStore with Store {
   _LoginStore() {
     autorun((_) {
       print("E-mail: $isEmailValid");
-      print("Formulário: $isFormValid");
       print("Visibilidade da senha: $passwordVisible");
     });
   }
@@ -41,21 +40,27 @@ abstract class _LoginStore with Store {
   Future<void> login() async {
     loading = true;
 
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
 
     loading = false;
+    loggedIn = true;
   }
 
 
+  @observable
+  bool loggedIn = false;
+
 
   @computed
-  bool get isEmailValid => RegExp(
+  bool get isEmailValid =>
+      RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(email);
+          .hasMatch(email);
 
   @computed
   bool get isPasswordValid => password.length >= 6;
 
   @computed
-  bool get isFormValid => isEmailValid && isPasswordValid;
+  Function? get loginPressed =>
+      (isEmailValid && isPasswordValid && !loading) ? login as Function : null;
 }
