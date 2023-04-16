@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:lista_de_tarefas_2/stores/todo_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'list_store.g.dart';
@@ -22,11 +23,12 @@ abstract class _ListStore with Store {
   @computed
   bool get isFormValid => newTodoTitle.isNotEmpty;
 
-  ObservableList<String> todoList = ObservableList<String>();
+  ObservableList<TodoStore> todoList = ObservableList<TodoStore>();
 
   @action
   void addTodo(){
-    todoList.add(newTodoTitle);
+    todoList.insert(0, TodoStore(newTodoTitle));
+    newTodoTitle = "";
   }
 
 }
