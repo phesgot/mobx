@@ -5,12 +5,7 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-  _LoginStore() {
-    autorun((_) {
-      print("E-mail: $isEmailValid");
-      print("Visibilidade da senha: $passwordVisible");
-    });
-  }
+
 
   @observable
   String email = "";
